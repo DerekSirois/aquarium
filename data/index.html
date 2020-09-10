@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Aquarium connecté</title>
+        <link rel="stylesheet" type="text/css" href="w3.css">
+        <script src="script.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    </head>
+    <body>
+        <div class="w3-card w3-center w3-padding-small w3-blue">
+            <h1>Aquarium connecté</h1>
+        </div>
+        <div class="w3-margin w3-center w3-card w3-padding-24">
+            <h5 class="w3-padding">L'eau est a <span id="degre">x</span> degrés</h5>
+            <button onclick="rechauffe()" class="w3-button w3-green w3-xlarge">Réchauffement de l'eau</button>
+            <form>
+                <label>Quel température:</label>
+                <input type="number" name="rechauffeTemps">
+            </form>
+        </div>
+        <div class="w3-margin w3-center w3-card w3-padding-24">
+            <button onclick="pompe()" class="w3-button w3-green w3-xlarge">Activer la pompe</button>
+            <form>
+                <label>Combien de temps(s):</label>
+                <input type="number" name="pompeTemps">
+            </form>
+        </div>
+    </body>
+</html>
