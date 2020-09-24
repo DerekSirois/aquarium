@@ -4,11 +4,10 @@
 #include <wire.h>
 #include "SSD1306.h"
 
-//Adafruit_SSD1306 display(-1);
 SSD1306 display(0x3c, 21, 22); 
 
-const char *ssid = "ecoleduweb";
-const char *password = "EcoleDuWeb";
+const char *ssid = "moreau";
+const char *password = "maison123456789";
 
 AsyncWebServer server(80);
 
@@ -75,8 +74,8 @@ void setup() {
 
   server.begin();
   Serial.println("Serveur actif!");
-
-  display.drawString(10, 10, "ip : "+ WiFi.localIP().toString() + "\nTempérature : x degré");
+  display.setFont(ArialMT_Plain_10);
+  display.drawString(0, 0, "AQUA2000\nip : "+ WiFi.localIP().toString() + "\nTempérature : x degré\nTemp souhaité : x degré\nChauffe: non");
   display.display();
 }
 
