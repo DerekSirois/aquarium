@@ -32,7 +32,9 @@ int tempsFiltre = 10;
 
 bool chauffe = false;
 
-int filtrage = 0;
+unsigned long previousMillis = millis();
+
+bool filtrage = false;
 
 bool filtrageEnCours = false;
 
@@ -44,6 +46,8 @@ void setup() {
   //GPIO
     
     pinMode(18, OUTPUT);
+    pinMode(27, OUTPUT);
+    digitalWrite(27, HIGH);
   //SPIFFS
   if(!SPIFFS.begin())
   {
@@ -174,8 +178,8 @@ void setup() {
   display.display();
 }
 
-void loop() {
-  display.clear();
+void verifierTemp(){
+    display.clear();
     sensors.requestTemperatures(); 
     int tempActuel = int(sensors.getTempCByIndex(0));
     //Serial.println(tempActuel);
@@ -200,27 +204,28 @@ void loop() {
       display.drawString(0, 0, "AQUA2000\nip : "+ WiFi.localIP().toString() + "\nTempérature : "+tempActuel+" degré\nTemp minimum : "+tempMin+" degré\nChauffe: non");
       display.display();
     }
-    
-    if(filtrageEnCours){
-      if(filtrage == tempsFiltre){
-        filtrage = 0;
-        filtrageEnCours = false;
-        //desactiver
-      }
-      else{
-        filtrage++;
-      }
+}
+
+void filtragePompe(){
+  unsigned long currentMillis = millis();
+  if(currentMillis - previousMillis >= tempsFiltre * 1000){
+    previousMillis = currentMillis;
+    if(!filtrage){
+      filtrage = true;
+      digitalWrite(27, HIGH);
+      delay(tempsEntre * 1000);
     }
     else{
-      if(filtrage == tempsEntre){
-        filtrage = 0;
-        filtrageEnCours = true;
-        //activer
-      }
-      else
-      {
-        filtrage++;
-      }
+      filtrage = false;
+      digitalWrite(27, LOW);
     }
-    delay(1000);
+  }
+}
+
+void loop() {
+    verifierTemp();
+    filtragePompe();
+    /*delay(3000);
+    digitalWrite(17, LOW);
+    delay(3000);*/
 }
